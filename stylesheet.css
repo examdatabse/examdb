@@ -1,0 +1,131 @@
+body{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    padding: 10px 0 10px;
+    overflow: auto;
+}
+div{
+    overflow: auto;
+}
+form{
+    text-align: left;
+    display: inline-block;
+    width: 100%;
+}
+
+a{
+    cursor: pointer;
+    color: black;
+    text-decoration: none;
+}
+
+.main_content{
+    max-width: 935px;
+    margin: auto;
+    padding: 5%;
+    overflow: auto;
+
+}
+
+.login_block{
+    justify-content: center;
+    max-width: 350px;
+    margin-top: 30px;
+    border: 1px solid #e6e6e6;
+    border-radius: 1px;
+    padding: 10px;
+    display: inline-block;
+}
+
+.login_inner_area{
+    padding: 20px;
+    margin-top: 20px; 
+}
+.login_input_area{
+    border: 1px solid #efefef;
+    text-align: center;
+    margin: 15px;
+}
+
+.login_input_area input{
+    border: 0px solid;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: start;
+    height: 25px;
+    width: 100%;
+}
+
+#login_button{
+    border: none;
+}
+#login_button button{
+    cursor: pointer;
+}
+
+.login_logo{
+    margin-bottom: 20px;
+}
+
+.top_banner{
+    width: 100%;
+    max-height: 80px;
+    border-bottom: 2px solid #bfbfbf;
+    overflow: auto;
+}
+
+.site_title{
+    font-family:"Times New Roman", Times, serif;
+    font-style: normal;
+    font-size: 40px;
+    font-variant: small-caps;
+    float: left;
+    margin-left: 30px;
+}
+.back{
+    font-style: normal;
+    font-size: 18px;
+    font-variant: small-caps;
+    color: #999999;
+    float: left;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    width: 100%;
+    text-align: left;
+}
+.back a:hover{
+    font-weight: bold;
+
+}
+.question_edit_area{
+    display: inline-block;
+    width: 100%;
+
+}
+.question_edit_area > textarea{
+    height: 100px;
+    width: 90%;
+
+}
+.question_input_box{
+    text-align: left;
+    width: 100%;
+}
+.choices{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.choices > .each_choice > *{
+    vertical-align: middle;
+}
+.choices > .each_choice > textarea{
+    width: 50%;
+    height: 20px;
+}
+
+

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Question</title>
+    <link rel="stylesheet" href="stylesheet.css">
+    <script src="add_question_functions.js"></script>
+</head>
+<body>
+    <div class="main_content">
+        <div class="top_banner">
+            <div class="site_title">Add Question</div>
+        </div>
+        <div class="back">
+            <a href="#####"> < BACK </a>
+        </div>
+        <form action="post.js", method="post" id="question_form">
+        <div class="question_edit_area">
+            <div class="input_items">
+                <label for="q_code">Question Code:</label>
+                <input type="text" name="q-code" id = "q_code">
+            </div>
+            <div class="input_items">
+                <input type="radio" name="permission" value="01"> Instructor only<br>
+                <input type="radio" name="permission" value="10"> Instructor, TA, and Mentors<br>
+                <input type="radio" name="permission" value="11"> Everyone<br>
+            </div>
+            <div class="tag_edit_area">
+                <p id="tags">tags: </p>
+                <button onclick="add_question_functions()" type="button">Add Tag</button>
+            </div>
+            <div class="question_edit_area">
+                Input Question:<br/>
+                <textarea name="question" rows="10" cols="50" placeholder="Enter the question here." form="question_form"></textarea>
+                Upload Image for question: <input type="file" name="question_image">
+            </div>
+            <div class="choices" id="choices">
+                <div class="each_choice">
+                    A: <textarea name="choice" form="question_form" id="choice_A"></textarea>
+                    Upload Image: <input type="file" name="choice_image">
+                </div>
+
+            </div>
+            <button onclick = "add_choice()" type="button" id="add_choice_button">Add More Choice</button>
+            <div class="answer">
+                Upload the answer as PDF <br/>
+                <input type="file" name="answer">
+            </div>
+
+            
+
+        </div>
+        <input type="submit" value="Submit">
+    </form>
+
+    </div>
+</body>
+</html>

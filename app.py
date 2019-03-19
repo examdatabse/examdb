@@ -31,8 +31,5 @@ def query_question(id):
             }
 
 
-def add_questions(question):
-    question = question.get_info()
-    current_time = int(round(time.time() * 1000))
-    Problems.create(id=question['id'], serial_code=question['serial'], tags=[])
-
+def add_questions(form, files):
+    pass

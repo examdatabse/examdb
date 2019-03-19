@@ -116,7 +116,7 @@ a{
     text-align: left;
     width: 100%;
 }
-.choices{
+.choices .each_choice{
     margin-top: 20px;
     margin-bottom: 20px;
 }

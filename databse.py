@@ -18,9 +18,10 @@ class Users(BaseModel):
 
 class Problems(BaseModel):
     id = PrimaryKeyField(null=True)
-    serial_code = CharField(null=False)
+    serial_code = CharField(null=True)
     tags = CharField(null=True)
-    question = CharField(null=False)
+    permission = CharField(null=True)
+    question = CharField(null=True)
     question_image = BlobField(null=True)
     answer = CharField(null=True)
     answer_image_a = BlobField(null=True)
@@ -28,11 +29,11 @@ class Problems(BaseModel):
     answer_image_c = BlobField(null=True)
     answer_image_d = BlobField(null=True)
     answer_image_e = BlobField(null=True)
-    choice_1 = CharField(null=False)
-    choice_2 = CharField(null=False)
-    choice_3 = CharField(null=False)
-    choice_4 = CharField(null=False)
-    choice_5 = CharField(null=False)
+    choice_1 = CharField(null=True)
+    choice_2 = CharField(null=True)
+    choice_3 = CharField(null=True)
+    choice_4 = CharField(null=True)
+    choice_5 = CharField(null=True)
     time_stamp = BigIntegerField(null=True)
 
 

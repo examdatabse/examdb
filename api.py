@@ -1,5 +1,6 @@
 from flask import *
 import examdb.app
+import traceback
 app = Flask(__name__)
 
 
@@ -10,10 +11,12 @@ def get_form_data():
 
 @app.route('/add', methods=['POST', "GET"])
 def add():
-    # q_code = request.form['question_image']
-    # print(len(q_code))
-    for i in request.files:
-        print(i)
+    files = request.files
+    form = request.form
+    try:
+        examdb.app.add_questions(form, files)
+    except Exception:
+        traceback.print_exc()
     return "Added"
 
 

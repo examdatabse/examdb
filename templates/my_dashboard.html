@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Database Dashboard</title>
+    <link rel="stylesheet" href="../static/stylesheet.css">
+
+    <script src="../static/content_changing.js"></script>
+
+</head>
+
+<body>
+    <div class="top_banner">
+        <div class="site_title">
+            Welcome to CHEM 1100 Database!
+        </div>
+    </div>
+    <div class="main_content" style="margin: 0; padding: 0;">
+        <div class="side_bar">
+            <div class="side_menu">
+                <button class="menu_options hidden_content" id="dashboard_button" onclick="change_content(0)">
+                    My Dashboard
+                </button>
+                <button class="menu_options current_option" id="search_button" onclick="change_content(1)">
+                    Search Questions
+                </button>
+                <button class="menu_options" id="add_q_button" onclick="change_content(2)">
+                    Add Questions
+                </button>
+            </div>
+            <div class="side_bar_user_profile">
+                <button class="menu_options" id="setting_button" onclick="change_content(3)">
+                    Account Setting
+                </button>
+            </div>
+
+        </div>
+        <div class="content_area">
+            <div class="content_slide hidden_content" id="dashboard">
+                Dashboard
+            </div>
+            <div class="content_slide" id="search_questions">
+                <div id="search_bar_container">
+                    <form action="/search" method="post" id="search_form">
+                        <input id="search_bar" form="search_form" name="key_word"
+                            placeholder="Search by question code or tags">
+                    </form>
+                </div>
+                <div id="result_stat">
+                    <p class="small_text">relevant questions found.</p>
+                </div>
+                <div id="search_results_container" class="" data-geocode='{{ search_results|tojson }}'>
+                    <!--Search result template for each question-->
+                    <!--generage a ID for each results. Replace the Id with 'IdNumber'-->
+                    <template id="questino_display_template">
+                        <div class="result_question_container" id="result_question_IdNumber">
+                            <div class="code_difficulty">
+                                <div class="result_titles q-code" id="q-code_IdNumber">Question Code: </div>
+                                <dvi class="result_titles difficulty_level" id="difficulty_level_IdNumber">Difficulty
+                                    Level
+                                </dvi>
+                            </div>
+                            <div class="result_titles categories" id="categories_IdNumber">Tages: </div>
+                            <div id="text_content_IdNumber" class="text_content">
+                                <p>
+                                    <span id="summary_IdNumber"></span>
+                                    Suppose Canada produces only cars and tablets. The resources that are used in the
+                                    production of these two goods are specialized—that is,<span
+                                        id="dots_IdNumber">...</span> <span id=more_IdNumber class="hidden_content">
+                                        resources are more suitable
+                                        for producing cars than tablets, whereas others are more suitable for producing
+                                        tablets than cars. The shape of Canada's production possibilities frontier (PPF)
+                                        should reflect the
+                                        fact that as Canada produces more tablets and fewer cars, the opportunity cost
+                                        of
+                                        producing each additional tablet increases</span>
+                                </p>
+
+                                <button onclick="Collapse('IdNumber')" id="button_IdNumber"
+                                    class="collapse_buttons">Read
+                                    more</button>
+                            </div>
+                            <div class="action_options">
+                                <button onclick="add_to_list('q-code')" id="AddToList_IdNumber"
+                                    class="action_buttons">Add to my
+                                    practice list</button>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+            <div class="content_slide hidden_content" id="add_question">
+            </div>
+            <div class="content_slide hidden_content" id="account_setting">
+                Setting
+            </div>
+
+        </div>
+    </div>
+</body>

@@ -1,14 +1,31 @@
-function add_question_functions(){
+var tages_counter = 0
+var choice_conuter = 1
+
+
+function add_tage() {
     var new_tag = prompt("Add tag:");
-    if (new_tag != null){
-        var my_tags = document.getElementById("tags");
-        my_tags.innerHTML += new_tag + " ";
+    if ('content' in document.createElement('template')) {
+        var TagesList = document.getElementById("tagsList");
+        var temp = document.getElementById("tag_template").content.cloneNode(true);
+        temp.querySelector("span").innerHTML = new_tag;
+        temp.querySelector("textarea").value = new_tag;
+        temp.querySelector("li").setAttribute("id", "tag_" + tages_counter.toString(16));
+        temp.querySelector("button").setAttribute("onclick", "deleteTages('tag_" + tages_counter.toString(16) + "')")
+        TagesList.appendChild(temp);
+        tages_counter++;
+    } else {
+        // Templates are not supported.
+        console.log("Templates are not supported");
     }
 }
 
-var choice_conuter = 1
+function deleteTages(tag_id) {
+    target_tag = document.getElementById(tag_id);
+    target_tag.parentNode.removeChild(target_tag);
+}
+
 function add_choice() {
-    choice_conuter ++;
+    choice_conuter++;
     var my_choices = document.getElementById("choices");
     var new_choice_labl = String.fromCharCode(64 + choice_conuter);
     console.log(document.getElementsByClassName("choices").length);//debug
@@ -32,3 +49,6 @@ function add_choice() {
     new_choice_div.appendChild(new_choice_input);
     my_choices.appendChild(new_choice_div);
 }
+
+
+

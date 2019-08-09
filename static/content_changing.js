@@ -2,6 +2,13 @@ function change_content(cmd) {
     var menu = document.getElementsByClassName("menu_options");
     var content = document.getElementsByClassName("content_slide");
     var i;
+    /*
+    if (cmd === 4){
+        ("#content_area").load("buck-upload.html");
+    }
+    */
+
+
     for (i = 1; i < menu.length; i++) {
         if (i === cmd) {
             menu[i].setAttribute("class", "menu_options current_option");
@@ -13,6 +20,7 @@ function change_content(cmd) {
         }
 
     }
+
 }
 
 function Collapse(ID) {

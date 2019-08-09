@@ -15,6 +15,9 @@
         <div class="site_title">
             Welcome to CHEM 1100 Database!
         </div>
+        <div class="logo_container">
+            <img src="../pictures/RF0010-01_Rensselaer_Large_Logo-with_Tagline_RGB-Red.png" alt="RPI Logo">
+        </div>
     </div>
     <div class="main_content" style="margin: 0; padding: 0;">
         <div class="side_bar">
@@ -28,15 +31,21 @@
                 <button class="menu_options" id="add_q_button" onclick="change_content(2)">
                     Add Questions
                 </button>
+                <button class="menu_options" id="buck-upload_button" onclick="change_content(3)">
+                    Buck-upload
+                </button>
+                <button class="menu_options" id="test_gen_button" onclick="change_content(4)">
+                    Test Generation
+                </button>
             </div>
             <div class="side_bar_user_profile">
-                <button class="menu_options" id="setting_button" onclick="change_content(3)">
+                <button class="menu_options" id="setting_button" onclick="change_content(5)">
                     Account Setting
                 </button>
             </div>
 
         </div>
-        <div class="content_area">
+        <div class="content_area" id="content_area">
             <div class="content_slide hidden_content" id="dashboard">
                 Dashboard
             </div>
@@ -45,21 +54,29 @@
                     <form action="/search" method="post" id="search_form">
                         <input id="search_bar" form="search_form" name="key_word"
                             placeholder="Search by question code or tags">
+                        <p class="small_text">Search by
+                            <input type="radio" id="by_key_word" name="search_type" value="0" checked ="checked">
+                            <label for="by_key_word" >by key word</label>
+                            <input type="radio" id="by_tag" name="search_type" value="1">
+                            <label for="by_tag">by tag</label>
+                            <input type="radio" id="by_q-code" name="search_type" value="2">
+                            <label for="by_q-code">by q-code</label>
+                        </p>
                     </form>
                 </div>
                 <div id="result_stat">
-                    <p class="small_text">relevant questions found.</p>
+                    <p class="small_text"> relevant questions found.</p>
                 </div>
                 <div id="search_results_container" class="" data-geocode='{{ search_results|tojson }}'>
                     <!--Search result template for each question-->
-                    <!--generage a ID for each results. Replace the Id with 'IdNumber'-->
-                    <template id="questino_display_template">
+                    <!--generate an ID for each results. Replace the Id with 'IdNumber'-->
+                    <template id="question_display_template">
                         <div class="result_question_container" id="result_question_IdNumber">
                             <div class="code_difficulty">
                                 <div class="result_titles q-code" id="q-code_IdNumber">Question Code: </div>
-                                <dvi class="result_titles difficulty_level" id="difficulty_level_IdNumber">Difficulty
+                                <div class="result_titles difficulty_level" id="difficulty_level_IdNumber">Difficulty
                                     Level
-                                </dvi>
+                                </div>
                             </div>
                             <div class="result_titles categories" id="categories_IdNumber">Tages: </div>
                             <div id="text_content_IdNumber" class="text_content">
@@ -91,6 +108,18 @@
                 </div>
             </div>
             <div class="content_slide hidden_content" id="add_question">
+            </div>
+            <div class="content_slide hidden_content" id="buck-upload">
+                <form action="buck_upload" method="post" id="buck_upload_form">
+                    Select your file:<br>
+                    <input type="file" name="buck_questions">
+                    <input type="submit" value="Add">
+                </form>
+
+
+            </div>
+            <div class="content_slide hidden_content" id="test_generation">
+                Test Generation
             </div>
             <div class="content_slide hidden_content" id="account_setting">
                 Setting

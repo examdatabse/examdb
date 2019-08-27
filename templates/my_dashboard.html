@@ -11,40 +11,14 @@
 </head>
 
 <body>
-    <div class="top_banner">
-        <div class="site_title">
-            Welcome to CHEM 1100 Database!
-        </div>
-        <div class="logo_container">
-            <img src="../pictures/RF0010-01_Rensselaer_Large_Logo-with_Tagline_RGB-Red.png" alt="RPI Logo">
-        </div>
+    <div class="top_banner_placeholder">
+        {% include 'top_banner.html' %}
     </div>
     <div class="main_content" style="margin: 0; padding: 0;">
-        <div class="side_bar">
-            <div class="side_menu">
-                <button class="menu_options hidden_content" id="dashboard_button" onclick="change_content(0)">
-                    My Dashboard
-                </button>
-                <button class="menu_options current_option" id="search_button" onclick="change_content(1)">
-                    Search Questions
-                </button>
-                <button class="menu_options" id="add_q_button" onclick="change_content(2)">
-                    Add Questions
-                </button>
-                <button class="menu_options" id="buck-upload_button" onclick="change_content(3)">
-                    Buck-upload
-                </button>
-                <button class="menu_options" id="test_gen_button" onclick="change_content(4)">
-                    Test Generation
-                </button>
-            </div>
-            <div class="side_bar_user_profile">
-                <button class="menu_options" id="setting_button" onclick="change_content(5)">
-                    Account Setting
-                </button>
-            </div>
-
+        <div class="side_bar_placeholder">
+            {% include 'side_bar.html' %}
         </div>
+
         <div class="content_area" id="content_area">
             <div class="content_slide hidden_content" id="dashboard">
                 Dashboard

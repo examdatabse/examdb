@@ -13,7 +13,7 @@ class Users(BaseModel):
     id = PrimaryKeyField()
     username = CharField(null=False)
     password = CharField(null=False)
-    permission = IntegerField(null=False)
+    permission = CharField(null=False)
 
 
 class Problems(BaseModel):
@@ -22,13 +22,7 @@ class Problems(BaseModel):
     tags = CharField(null=True)
     permission = CharField(null=True)
     question = CharField(null=True)
-    question_image = BlobField(null=True)
     answer = CharField(null=True)
-    answer_image_a = BlobField(null=True)
-    answer_image_b = BlobField(null=True)
-    answer_image_c = BlobField(null=True)
-    answer_image_d = BlobField(null=True)
-    answer_image_e = BlobField(null=True)
     choice_1 = CharField(null=True)
     choice_2 = CharField(null=True)
     choice_3 = CharField(null=True)
@@ -38,8 +32,9 @@ class Problems(BaseModel):
 
 
 if __name__ == '__main__':
-    Users.create_table()
-    Problems.create_table()
+    # Users.create_table()
+    Users.create(username='xur2', password='xuran1', permission='A')
+    # Problems.create_table()
     # img = open('ai.jpg', 'rb').read()
     # Problems.create(serial_code='12345', testlet='asdnjan', question_image=img)
     # query = Problems.select().where(Problems.serial_code == '12345')

@@ -1,6 +1,6 @@
 import time
 
-from examdb.databse import Problems
+from examdb.databse import Users
 
 
 import time
@@ -128,6 +128,24 @@ def add_questions(form, files):
     pass
 
 
-def bulk_add(form, files):
+def bulk_add(bulk):
+    for i in bulk.keys():
+        question = bulk[i]
+        Problems.create(serial_code=question['serial'], permission=question['permission'],
+                        question=question['qbody'],choice_1=question['c1'], choice_2=question['c2'],
+                        choice_3=question['c3'], choice_4=question['c4'], choice_5=question['c5'],
+                        time=time.time(), answer=question['ans']
+                        )
 
-    pass
+
+def authenticate(username, password):
+    query = Users.select().where(Users.username == username)
+    pw = ''
+    for i in query:
+        pw = i.password
+    if pw == '':
+        return False, 0
+    elif pw != password:
+        return False, 1
+    else:
+        return True, 2

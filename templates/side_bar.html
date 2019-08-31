@@ -1,24 +1,35 @@
 <div class="side_bar">
     <div class="side_menu">
-        <button class="menu_options hidden_content" id="dashboard_button" onclick="change_content(0)">
+        <button class="menu_options" id="dashboard_button" onclick="request_page('dashboard')">
             My Dashboard
         </button>
-        <button class="menu_options current_option" id="search_button" onclick="change_content(1)">
+        <button class="menu_options" id="search_button" onclick="request_page('search_question')">
             Search Questions
         </button>
-        <button class="menu_options" id="add_q_button" onclick="change_content(2)">
-            Add Questions
-        </button>
-        <button class="menu_options" id="buck-upload_button" onclick="change_content(3)">
-            Buck-upload
-        </button>
-        <button class="menu_options" id="test_gen_button" onclick="change_content(4)">
+        <button class="menu_options" id="test_gen_button" onclick="request_page('test_generation')">
             Test Generation
         </button>
     </div>
     <div class="side_bar_user_profile">
-        <button class="menu_options" id="setting_button" onclick="change_content(5)">
+        <button class="menu_options" id="setting_button" onclick="request_page('account_setting')">
             Account Setting
         </button>
+    </div>
+    <template id="side_bar_button_template">
+        <button class="menu_options" id="button_template" onclick="request_page('example')">
+            template
+        </button>
+    </template>
+    <div class="data_receiver hidden_content">
+        <script src="../static/side_bar.js"></script>
+        <script type="text/javascript">
+            var user_name = "undefined";
+            var account_type = -1;
+            //var user_name = {{user_name}};
+            var account_type = {{account_type}};
+            side_bar_generator(account_type);
+        </script>
+
+
     </div>
 </div>

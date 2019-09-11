@@ -1,6 +1,7 @@
 //show different option on side bar for different types of user
 //0 = student, 1 = TA, 2 = Administer
-const account_apps = [[], ["Bulk Upload", "Add Question"], ["Bulk Upload", "Add Question"]];
+const account_apps = [[], ["Bulk Upload", "Add Question"], ["Bulk Upload",
+    "Add Question"]];
 function side_bar_generator(type_int){
     let container = document.getElementsByClassName("side_menu")[0];
     let template = document.getElementById("side_bar_button_template");
@@ -21,8 +22,14 @@ function side_bar_generator(type_int){
     }
 }
 
-//Request function for side bar button
+/**
+ * This function sends a GET request for a new page. The function also sends
+ * the user name along with the get request to double check that the user
+ * has the permission to use this function.
+ * @param {string} func: The name of the wanted function/request
+ */
 function request_page(func){
+    /*
     if (user_name === "undefined"){
         console.error("user_name is undefined");
     }
@@ -32,4 +39,8 @@ function request_page(func){
         xhttp.open("GET", url, true);
         xhttp.send();
     }
+    */
+    let url = "/" + func;
+    window.location.href = url;
+
 }

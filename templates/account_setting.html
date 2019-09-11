@@ -5,23 +5,84 @@
     <meta charset="UTF-8">
     <title>Account Setting</title>
     <link rel="stylesheet" href="../static/stylesheet.css">
+    <script src="../static/account_setting.js"></script>
+    <style>
+        #setting_button {color: #000000;}
+    </style>
 </head>
 
 <body>
-<div class="top_banner_placeholder">
-    {% include 'top_banner.html' %}
-</div>
-<div class="main_content" style="margin: 0; padding: 0;">
-    <div class="side_bar_placeholder">
-        {% include 'side_bar.html' %}
-    </div>
+<div class="page">
 
-    <div class="content_area" id="content_area">
-        <div class="content_slide hidden_content" id="account_setting">
-            Setting
+
+    <div class="top_banner_placeholder">
+        {% include 'top_banner.html' %}
+    </div>
+    <div class="main_content" style="margin: 0; padding: 0;">
+        <div class="side_bar_placeholder">
+            {% include 'side_bar.html' %}
         </div>
 
+        <div class="content_area" id="content_area">
+            <div class="content_slide" id="account_setting">
+                <div class="title">
+                    Account Setting
+                </div>
+                <div id="account_setting_edit_area">
+                    <form name="account_setting_form" action="/account_change" method="post" id="account_setting_form"
+                          enctype="multipart/form-data">
+                        <div class="account_setting_input_area">
+                            First name:
+                            <input type="text" id="fname" name="fname" oninput="submit_enable()" required>
+                        </div>
+                        <div class="account_setting_input_area">
+                            Last name:
+                            <input type="text" id="lname" name="lname" oninput="submit_enable()" required>
+                        </div>
+                        <div class="account_setting_input_area">
+                            Email:
+                            <input type="text" id="user_email" name="user_email" readonly>
+                        </div>
+
+                        <div class="subtitle">
+                            Change your password
+                        </div>
+                        <div class="account_setting_input_area">
+                            Current password:
+                            <input type="password" name="current_psw" id="in_current_psw" oninput="submit_enable()">
+                        </div>
+                        <div>
+                            <div class="account_setting_input_area">
+                            New password:
+                            <input type="password" id="new_psw" name="new_psw" oninput="submit_enable()">
+                            </div>
+                            <div class="account_setting_input_area">
+                            Confirm new password:
+                            <input type="password" id="re_new_psw" name="re_new_psw" oninput="submit_enable()">
+                            </div>
+                        </div>
+                        <input type="submit" id="account_setting_submit_button" value="Save Changes" disabled="disabled"/>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="data_receiver hidden_content">
+        <script type="text/javascript">
+            var s_fname = "First name";
+            var s_lname = "Last name";
+            var s_user_email = "E-mail";
+            s_fname = {{fname}};
+            s_lname = {{lname}};
+            s_user_email = {{user_email}};
+            if (s_user_email === "E-mail"){
+                console.error("user email is null");
+            }
+            fill_user_info(s_fname, s_lname, s_user_email);
+        </script>
     </div>
 </div>
 </body>
+<script src="../static/account_setting.js"></script>
 </html>

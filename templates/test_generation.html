@@ -5,23 +5,27 @@
     <meta charset="UTF-8">
     <title>Test Generation</title>
     <link rel="stylesheet" href="../static/stylesheet.css">
-
     <script src="../static/content_changing.js"></script>
+    <style>
+        #test_gen_button {color: #000000;}
+    </style>
 
 </head>
 
 <body>
-<div class="top_banner_placeholder">
-    {% include 'top_banner.html' %}
-</div>
-<div class="main_content" style="margin: 0; padding: 0;">
-    <div class="side_bar_placeholder">
-        {% include 'side_bar.html' %}
+<div class="page">
+    <div class="top_banner_placeholder">
+        {% include 'top_banner.html' %}
     </div>
+    <div class="main_content" style="margin: 0; padding: 0;">
+        <div class="side_bar_placeholder">
+            {% include 'side_bar.html' %}
+        </div>
 
-    <div class="content_area" id="content_area">
-        <div class="content_slide" id="test_generation">
-            Test Generation
+        <div class="content_area" id="content_area">
+            <div class="content_slide" id="test_generation">
+                Test Generation
+            </div>
         </div>
     </div>
 </div>

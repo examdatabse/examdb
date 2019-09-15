@@ -1,28 +1,3 @@
-function change_content(cmd) {
-    var menu = document.getElementsByClassName("menu_options");
-    var content = document.getElementsByClassName("content_slide");
-    var i;
-    /*
-    if (cmd === 4){
-        ("#content_area").load("buck-upload.html");
-    }
-    */
-
-
-    for (i = 1; i < menu.length; i++) {
-        if (i === cmd) {
-            menu[i].setAttribute("class", "menu_options current_option");
-            content[i].setAttribute("class", "content_slide");
-        }
-        else {
-            menu[i].setAttribute("class", "menu_options");
-            content[i].setAttribute("class", "content_slide hidden_content");
-        }
-
-    }
-
-}
-
 function Collapse(ID) {
     var dots = document.getElementById("dots_" + ID);
     var moreText = document.getElementById("more_" + ID);

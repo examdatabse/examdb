@@ -19,7 +19,6 @@ class Server:
 
     def __initialize(self):
         self.__login_info = examdb.app.load_info()
-        print(self.__login_info)
 
     # authenticate a login request with provided password and username
     # returns a unique token for the user

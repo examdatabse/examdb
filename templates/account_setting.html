@@ -29,7 +29,9 @@
                     Account Setting
                 </div>
                 <div id="account_setting_edit_area">
-                    <form name="account_setting_form" action="/account_change" method="post" id="account_setting_form"
+                    <form name="account_setting_form" action="/account_change"
+                          method="post" id="account_setting_form"
+                          onsubmit="return validateForm();"
                           enctype="multipart/form-data">
                         <div class="account_setting_input_area">
                             First name:
@@ -51,7 +53,7 @@
                             Current password:
                             <input type="password" name="current_psw" id="in_current_psw" oninput="submit_enable()">
                         </div>
-                        <div>
+                        <div id="new_psw_input_area">
                             <div class="account_setting_input_area">
                             New password:
                             <input type="password" id="new_psw" name="new_psw" oninput="submit_enable()">
@@ -73,9 +75,11 @@
             var s_fname = "First name";
             var s_lname = "Last name";
             var s_user_email = "E-mail";
+            /*
             s_fname = {{fname}};
             s_lname = {{lname}};
             s_user_email = {{user_email}};
+             */
             if (s_user_email === "E-mail"){
                 console.error("user email is null");
             }

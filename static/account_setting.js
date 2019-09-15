@@ -19,7 +19,7 @@ function submit_enable(){
 
     //if the user start typing password, make all three field required and
     //enable the submit button.
-    if(u_curt_psw.value.trim() || u_new_psw.value.trim() || u_re_new_psw.value.trim()){
+    if(u_curt_psw.value.trim() || u_new_psw.value || u_re_new_psw.value){
         u_curt_psw.setAttribute("required", "required");
         u_new_psw.setAttribute("required", "required");
         u_re_new_psw.setAttribute("required", "required");
@@ -32,7 +32,7 @@ function submit_enable(){
     }
 
     //if nothing changed disable the submit button.
-    if(u_fname === s_fname && u_lname === s_lname && !(u_curt_psw.value.trim() || u_new_psw.value.trim() || u_re_new_psw.value.trim())){
+    if(u_fname === s_fname && u_lname === s_lname && !(u_curt_psw.value || u_new_psw.value || u_re_new_psw.value)){
         enable = false;
     }
 
@@ -43,4 +43,16 @@ function submit_enable(){
     else{
         document.getElementById("account_setting_submit_button").setAttribute("disabled", "disabled");
     }
+}
+
+function validateForm(){
+    const u_new_psw = document.getElementById("new_psw");
+    const u_re_new_psw = document.getElementById("re_new_psw");
+
+    if (u_new_psw.value !== u_re_new_psw.value){
+        u_new_psw.setAttribute("class", "invalid_input");
+        u_re_new_psw.setAttribute("class", "invalid_input");
+        return false;
+    }
+    return true;
 }

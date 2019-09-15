@@ -64,13 +64,27 @@ def dashboard():
     else:
         token = request.cookies['session']
         result, new_token = server.login_token(token)
-        print(token)
         if result:
-            response = make_response(render_template('my_dashboard.html', search_results={}))
+            response = make_response(render_template('dashboard.html', search_results={}))
             response.set_cookie('session', new_token)
             return response
         else:
             return redirect('/')
+
+
+@app.route('/account_setting', methods=['POST', 'GET'])
+def account_settings():
+    if 'session' not in request.cookies.keys():
+        return render_template('login.html')
+    else:
+        token = request.cookies['session']
+        result, new_token = server.login_token(token)
+        if result:
+            response = make_response(render_template('account_setting.html'))
+            response.set_cookie('session', new_token)
+            return response
+        else:
+            return render_template('login.html')
 
 
 @app.route('/buck_upload', methods=['POST', 'GET'])

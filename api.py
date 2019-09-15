@@ -2,42 +2,38 @@ from flask import *
 import examdb.app
 import traceback
 import examdb.docs
-from datetime import timedelta
-import os
+import examdb.server
 app = Flask(__name__)
-
-
-@app.before_request
-def session_life_time():
-    session.permanent = True
-    app.permanent_session_lifetime = timedelta(minutes=5)
+server = None
 
 
 @app.route('/', methods=['POST', 'GET'])
 def login():
-    if not session.get('logged_in'):
+    if 'session' not in request.cookies.keys():
         return render_template('login.html')
     else:
-        return redirect('/dashboard')
+        token = request.cookies['session']
+        result, new_token = server.login_token(token)
+        if result:
+            response = make_response(redirect('/dashboard'))
+            response.set_cookie('session', new_token)
+            return response
+        else:
+            return render_template('login.html')
 
 
 @app.route('/authen', methods=['POST'])
 def authenticate():
     form = request.form
-    print(form)
     username = form.get('uname')
     password = form.get('psw')
-    result, code = examdb.app.authenticate(username, password)
-    if result:
-        session['logged_in'] = True
-        return redirect('/dashboard')
+    result, token = server.login_password(username, password)
+    if result == 0:
+        response = make_response(redirect('/dashboard'))
+        response.set_cookie('session', token)
+        return response
     else:
-        if code == 0:
-            flash('No such username')
-            return redirect('/')
-        if code == 1:
-            flash('Wrong password')
-            return redirect('/')
+        return redirect('/')
 
 
 @app.route('/index', methods=['POST', 'GET'])
@@ -63,9 +59,18 @@ def add():
 
 @app.route('/dashboard', methods=['POST', 'GET'])
 def dashboard():
-    if not session.get('logged_in'):
+    if 'session' not in request.cookies.keys():
         return redirect('/')
-    return render_template('my_dashboard.html', search_results={})
+    else:
+        token = request.cookies['session']
+        result, new_token = server.login_token(token)
+        print(token)
+        if result:
+            response = make_response(render_template('my_dashboard.html', search_results={}))
+            response.set_cookie('session', new_token)
+            return response
+        else:
+            return redirect('/')
 
 
 @app.route('/buck_upload', methods=['POST', 'GET'])
@@ -97,5 +102,5 @@ def query():
 
 
 if __name__ == '__main__':
-    app.secret_key = os.urandom(12)
+    server = examdb.server.Server()
     app.run(host='localhost', port=5000)

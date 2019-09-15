@@ -14,6 +14,8 @@ class Users(BaseModel):
     username = CharField(null=False)
     password = CharField(null=False)
     permission = CharField(null=False)
+    first_name = CharField(null=False)
+    last_name = CharField(null=False)
 
 
 class Problems(BaseModel):
@@ -33,7 +35,7 @@ class Problems(BaseModel):
 
 if __name__ == '__main__':
     # Users.create_table()
-    Users.create(username='xur2', password='xuran1', permission='A')
+    Users.create(username='xur2', password='xuran1', permission='1', first_name='Ran', last_name='Xu')
     # Problems.create_table()
     # img = open('ai.jpg', 'rb').read()
     # Problems.create(serial_code='12345', testlet='asdnjan', question_image=img)

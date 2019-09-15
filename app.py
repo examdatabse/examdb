@@ -149,3 +149,13 @@ def authenticate(username, password):
         return False, 1
     else:
         return True, 2
+
+
+def load_info():
+    query = Users.select().where(True)
+    login_info = dict()
+    for i in query:
+        login_info[i.username] = {'password': i.password, 'permission': i.permission, 'first_name': i.first_name,
+                              'last_name': i.last_name}
+    return login_info
+

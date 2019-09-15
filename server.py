@@ -45,6 +45,9 @@ class Server:
                 new_token = self.__update_token(token)
                 return True, new_token
 
+    def get_permission(self, token):
+        return self.__login_info[self.__token_pool[token]['username']]['permission']
+
     def __update_token(self, old_token):
         seed, token = examdb.token_manager.TokenManager.generate_token()
         username = self.__token_pool[old_token]['username']

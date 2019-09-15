@@ -17,6 +17,7 @@ def login():
         if result:
             response = make_response(redirect('/dashboard'))
             response.set_cookie('session', new_token)
+            response.set_cookie('account_type', server.get_permission(new_token))
             return response
         else:
             return render_template('login.html')
@@ -31,6 +32,7 @@ def authenticate():
     if result == 0:
         response = make_response(redirect('/dashboard'))
         response.set_cookie('session', token)
+        response.set_cookie('account_type', server.get_permission(token))
         return response
     else:
         return redirect('/')
@@ -59,6 +61,7 @@ def add():
 
 @app.route('/dashboard', methods=['POST', 'GET'])
 def dashboard():
+    print(request.cookies)
     if 'session' not in request.cookies.keys():
         return redirect('/')
     else:
@@ -67,6 +70,7 @@ def dashboard():
         if result:
             response = make_response(render_template('dashboard.html', search_results={}))
             response.set_cookie('session', new_token)
+            response.set_cookie('account_type', server.get_permission(new_token))
             return response
         else:
             return redirect('/')
@@ -82,6 +86,7 @@ def account_settings():
         if result:
             response = make_response(render_template('account_setting.html'))
             response.set_cookie('session', new_token)
+            response.set_cookie('account_type', server.get_permission(new_token))
             return response
         else:
             return render_template('login.html')
@@ -93,7 +98,6 @@ def bulkapi():
         return redirect('/')
     files = request.files
     form = request.form
-    print(files)
     file = files.get('buck_questions')
     file.save("uploads/upload1.docx")
     info, string = examdb.docs.parse_doc("uploads/upload1.docx", 1)

@@ -18,7 +18,7 @@ class Server:
         pass
 
     def __initialize(self):
-        self.__login_info = examdb.app.load_info()
+        self.__login_info = examdb.app.DatabaseManager.load_info()
 
     # authenticate a login request with provided password and username
     # returns a unique token for the user
@@ -56,6 +56,10 @@ class Server:
         self.__token_pool.pop(old_token, None)
         return token
 
+    def logout(self, token):
+        self.__token_pool.pop(token)
+        pass
+
     def change_password(self, old_password, new_password):
         pass
 
@@ -63,6 +67,7 @@ class Server:
         pass
 
     def add_question(self, form, files):
+        examdb.app.DatabaseManager.add_questions(form, files)
         pass
 
     def bulk_upload(self, files):

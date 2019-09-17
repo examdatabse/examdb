@@ -62,7 +62,7 @@ class Server:
     def change_name(self, first_name, last_name):
         pass
 
-    def add_question(self, files, questions):
+    def add_question(self, form, files):
         pass
 
     def bulk_upload(self, files):

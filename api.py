@@ -47,21 +47,25 @@ def get_form_data():
 
 @app.route('/add', methods=['POST', "GET"])
 def add():
-    if not session.get('logged_in'):
-        return redirect('/')
     files = request.files
     form = request.form
-    print(files)
-    try:
-        examdb.app.add_questions(form, files)
-    except Exception:
-        traceback.print_exc()
-    return "Added"
+    if 'session' not in request.cookies.keys():
+        return redirect('/')
+    else:
+        token = request.cookies['session']
+        result, new_token = server.login_token(token)
+        if result:
+            server.add_question(form, files)
+            response = make_response('success')
+            response.set_cookie('session', new_token)
+            response.set_cookie('account_type', server.get_permission(new_token))
+            return response
+        else:
+            return redirect('/')
 
 
 @app.route('/dashboard', methods=['POST', 'GET'])
 def dashboard():
-    print(request.cookies)
     if 'session' not in request.cookies.keys():
         return redirect('/')
     else:
@@ -79,7 +83,7 @@ def dashboard():
 @app.route('/account_setting', methods=['POST', 'GET'])
 def account_settings():
     if 'session' not in request.cookies.keys():
-        return render_template('login.html')
+        return redirect('/')
     else:
         token = request.cookies['session']
         result, new_token = server.login_token(token)
@@ -92,24 +96,40 @@ def account_settings():
             return render_template('login.html')
 
 
-@app.route('/buck_upload', methods=['POST', 'GET'])
-def bulkapi():
-    if not session.get('logged_in'):
+@app.route('/bulk_page', methods=['POST', 'GET'])
+def bulk_page():
+    if 'session' not in request.cookies.keys():
         return redirect('/')
+    else:
+        token = request.cookies['session']
+        result, new_token = server.login_token(token)
+        if result:
+            response = make_response(render_template('bulk_upload.html'))
+            response.set_cookie('session', new_token)
+            response.set_cookie('account_type', server.get_permission(new_token))
+            return response
+        else:
+            return render_template('login.html')
+
+
+@app.route('/bulk_upload', methods=['POST', 'GET'])
+def bulkapi():
     files = request.files
     form = request.form
-    file = files.get('buck_questions')
-    file.save("uploads/upload1.docx")
-    info, string = examdb.docs.parse_doc("uploads/upload1.docx", 1)
-    # output_file = ""
-    # with open("templates/upload_result.html", "r") as f:
-    #     for i in f:
-    #         output_file += i
-    #     output_file = output_file.replace("{{data}}", string)
-    # with open("templates/test_result.html", "w", encoding='utf-8') as f:
-    #     f.write(output_file)
-    examdb.app.bulk_add(info)
-    return render_template("upload_result.html", data=string)
+    if 'session' not in request.cookies.keys():
+        return redirect('/')
+    else:
+        token = request.cookies['session']
+        result, new_token = server.login_token(token)
+        if result:
+            file = files.get('buck_questions')
+            server.bulk_upload(file)
+            response = make_response('success')
+            response.set_cookie('session', new_token)
+            response.set_cookie('account_type', server.get_permission(new_token))
+            return response
+        else:
+            return redirect('/')
 
 
 @app.route('/query', methods=['POST', 'GET'])

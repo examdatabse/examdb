@@ -132,7 +132,7 @@ def bulk_add(bulk):
     for i in bulk.keys():
         question = bulk[i]
         Problems.create(serial_code=question['serial'], permission=question['permission'],
-                        question=question['qbody'],choice_1=question['c1'], choice_2=question['c2'],
+                        question=question['qbody'], choice_1=question['c1'], choice_2=question['c2'],
                         choice_3=question['c3'], choice_4=question['c4'], choice_5=question['c5'],
                         time=time.time(), answer=question['ans']
                         )

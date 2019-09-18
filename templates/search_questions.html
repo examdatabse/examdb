@@ -37,7 +37,7 @@
                     </form>
                 </div>
                 <div id="result_stat hidden_content">
-                    <p class="small_text"> relevant questions found.</p>
+                    <p class="small_text hidden_content"> relevant questions found.</p>
                 </div>
                 <div id="search_results_container" class="">
                     <!--Search result template for each question-->
@@ -45,13 +45,13 @@
                     {% for result in search_results %}
                     <div class="result_question_container">
                         <div class="code_difficulty">
-                            <div class="result_titles q-code">Question Code:  {{result.id}}</div>
+                            <div class="result_titles q-code">Question Code:  {{result.id|safe}}</div>
                             <div class="result_titles difficulty_level hidden_content">Difficulty Level</div>
                         </div>
-                        <div class="result_titles categories" id="categories_IdNumber">Tags: {{result.tags}} </div>
+                        <div class="result_titles categories" id="categories_IdNumber">Tags: {{result.tags|safe}} </div>
                         <div id="text_content_IdNumber" class="text_content">
                             <p>
-                                <span>{{result.testlet}}</span>
+                                <span>{{result.testlet|safe}}</span>
                                 <span class="hidden_content">...</span>
                                 <span class="hidden_content"></span>
                             </p>
@@ -68,4 +68,5 @@
     </div>
 </div>
 </body>
+<script src='../static/MathJax-master/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
 </html>

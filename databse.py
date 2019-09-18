@@ -34,10 +34,10 @@ class Problems(BaseModel):
 
 
 if __name__ == '__main__':
-    # Users.create_table()
-    # Users.create(username='xur2', password='xuran1', permission='1', first_name='Ran', last_name='Xu')
+    Users.create_table()
+    Users.create(username='xur2', password='xuran1', permission='1', first_name='Ran', last_name='Xu')
     Users.create(username='admin', password='xuran1', permission='2', first_name='Ran', last_name='Xu')
-    # Problems.create_table()
+    Problems.create_table()
     # img = open('ai.jpg', 'rb').read()
     # Problems.create(serial_code='12345', testlet='asdnjan', question_image=img)
     # query = Problems.select().where(Problems.serial_code == '12345')

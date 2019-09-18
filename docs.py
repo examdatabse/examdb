@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 
 
 def parse_doc(docname, offset):
-    output = pypandoc.convert_file(docname, 'html', extra_args=['--extract-media=static/{}'.format(offset)])
+    output = pypandoc.convert_file(docname, 'html', extra_args=['--extract-media=static/exam_imgs/{}'.format(offset)])
     soup = BeautifulSoup(output, "html.parser")
     all_questions = soup.find_all(["p", "table"])
     all_questions = list(all_questions)

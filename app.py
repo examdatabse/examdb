@@ -29,7 +29,7 @@ class DatabaseManager:
                         choice_1=choices[0], choice_2=choices[1], choice_3=choices[2], choice_4=choices[3], choice_5=
                         choices[4], answer_image_a=choice_images[0], answer_image_b=choice_images[1], answer_image_c=
                         choice_images[2], answer_image_d=choice_images[3], answer_image_e=choice_images[4],
-                        time=time.time()
+                        time_stamp=time.time()
                         )
 
     @staticmethod
@@ -39,7 +39,7 @@ class DatabaseManager:
             Problems.create(serial_code=question['serial'], permission=question['permission'],
                             question=question['qbody'], choice_1=question['c1'], choice_2=question['c2'],
                             choice_3=question['c3'], choice_4=question['c4'], choice_5=question['c5'],
-                            time=time.time(), answer=question['ans']
+                            time_stamp=time.time(), answer=question['ans']
                             )
 
     @staticmethod

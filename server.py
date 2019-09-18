@@ -2,6 +2,7 @@ import examdb.app
 import examdb.docs
 import examdb.cache
 import examdb.token_manager
+import examdb.query
 import time
 
 
@@ -12,6 +13,7 @@ class Server:
     __search_cache = examdb.cache.Cache()
     __login_info = dict()
     __token_pool = dict()
+    __file_offset = 0
 
     def __init__(self):
         self.__initialize()
@@ -71,7 +73,11 @@ class Server:
         pass
 
     def bulk_upload(self, files):
-        pass
+        file_name = 'uploads/upload_{}.docx'.format(self.__file_offset)
+        files.save(file_name)
+        questions = examdb.docs.parse_doc(file_name, self.__file_offset)[0]
+        examdb.app.DatabaseManager.bulk_add(questions)
+        self.__file_offset += 1
 
     def search_by_keyword(self, key_word):
         pass
@@ -80,4 +86,7 @@ class Server:
         pass
 
     def search_by_serial_number(self, serial_number):
+        result, question = examdb.query.Query.query_by_id(serial_number)
+        print(result)
+        print(question)
         pass

@@ -96,7 +96,7 @@ def account_settings():
             return render_template('login.html')
 
 
-@app.route('/bulk_page', methods=['POST', 'GET'])
+@app.route('/bulk_upload', methods=['POST', 'GET'])
 def bulk_page():
     if 'session' not in request.cookies.keys():
         return redirect('/')
@@ -112,10 +112,9 @@ def bulk_page():
             return render_template('login.html')
 
 
-@app.route('/bulk_upload', methods=['POST', 'GET'])
+@app.route('/bulk_submit', methods=['POST', 'GET'])
 def bulkapi():
     files = request.files
-    form = request.form
     if 'session' not in request.cookies.keys():
         return redirect('/')
     else:
@@ -124,6 +123,7 @@ def bulkapi():
         if result:
             file = files.get('buck_questions')
             server.bulk_upload(file)
+            server.search_by_serial_number('4')
             response = make_response('success')
             response.set_cookie('session', new_token)
             response.set_cookie('account_type', server.get_permission(new_token))
@@ -132,11 +132,26 @@ def bulkapi():
             return redirect('/')
 
 
+@app.route('/search', methods=['POST', 'GET'])
+def query_page():
+    pass
+
+
 @app.route('/query', methods=['POST', 'GET'])
 def query():
     if not session.get('logged_in'):
         return redirect('/')
     pass
+
+
+@app.route('/logout', methods=['POST', 'GET'])
+def logout():
+    if 'session' not in request.cookies.keys():
+        return redirect('/')
+    else:
+        token = request.cookies['session']
+        server.logout(token)
+        return redirect('/')
 
 
 if __name__ == '__main__':

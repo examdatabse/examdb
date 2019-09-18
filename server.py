@@ -87,6 +87,5 @@ class Server:
 
     def search_by_serial_number(self, serial_number):
         result, question = examdb.query.Query.query_by_id(serial_number)
-        print(result)
-        print(question)
+        return [question]
         pass

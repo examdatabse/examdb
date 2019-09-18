@@ -123,7 +123,6 @@ def bulkapi():
         if result:
             file = files.get('buck_questions')
             server.bulk_upload(file)
-            server.search_by_serial_number('4')
             response = make_response('success')
             response.set_cookie('session', new_token)
             response.set_cookie('account_type', server.get_permission(new_token))
@@ -146,14 +145,27 @@ def query_page():
                                 server.get_permission(new_token))
             return response
         else:
-            return render_template('login.html')
+            return redirect('/')
 
 
 @app.route('/query', methods=['POST', 'GET'])
 def query():
-    if not session.get('logged_in'):
+    if 'session' not in request.cookies.keys():
         return redirect('/')
-    pass
+    else:
+        token = request.cookies['session']
+        result, new_token = server.login_token(token)
+        if result:
+            key_word = request.form['key_word']
+            question = server.search_by_serial_number(key_word)
+            response = make_response(render_template('search_questions.html', search_results=question))
+            response.set_cookie('session', new_token)
+            response.set_cookie('account_type',
+                                server.get_permission(new_token))
+            return response
+            pass
+        else:
+            return redirect('/')
 
 
 @app.route('/logout', methods=['POST', 'GET'])

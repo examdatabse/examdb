@@ -23,7 +23,7 @@
         <div class="content_area" id="content_area">
             <div class="content_slide" id="search_questions">
                 <div id="search_bar_container">
-                    <form action="/search" method="post" id="search_form">
+                    <form action="/query" method="post" id="search_form">
                         <input id="search_bar" form="search_form" name="key_word"
                                placeholder="Search by question code or tags">
                         <p class="small_text">Search by
@@ -36,47 +36,32 @@
                         </p>
                     </form>
                 </div>
-                <div id="result_stat">
+                <div id="result_stat hidden_content">
                     <p class="small_text"> relevant questions found.</p>
                 </div>
-                <div id="search_results_container" class="" data-geocode='{{ search_results|tojson }}'>
+                <div id="search_results_container" class="">
                     <!--Search result template for each question-->
                     <!--generate an ID for each results. Replace the Id with 'IdNumber'-->
-                    <template id="question_display_template">
-                        <div class="result_question_container" id="result_question_IdNumber">
-                            <div class="code_difficulty">
-                                <div class="result_titles q-code" id="q-code_IdNumber">Question Code: </div>
-                                <div class="result_titles difficulty_level" id="difficulty_level_IdNumber">Difficulty
-                                    Level
-                                </div>
-                            </div>
-                            <div class="result_titles categories" id="categories_IdNumber">Tages: </div>
-                            <div id="text_content_IdNumber" class="text_content">
-                                <p>
-                                    <span id="summary_IdNumber"></span>
-                                    Suppose Canada produces only cars and tablets. The resources that are used in the
-                                    production of these two goods are specialized—that is,<span
-                                        id="dots_IdNumber">...</span> <span id=more_IdNumber class="hidden_content">
-                                            resources are more suitable
-                                            for producing cars than tablets, whereas others are more suitable for producing
-                                            tablets than cars. The shape of Canada's production possibilities frontier (PPF)
-                                            should reflect the
-                                            fact that as Canada produces more tablets and fewer cars, the opportunity cost
-                                            of
-                                            producing each additional tablet increases</span>
-                                </p>
-
-                                <button onclick="Collapse('IdNumber')" id="button_IdNumber"
-                                        class="collapse_buttons">Read
-                                    more</button>
-                            </div>
-                            <div class="action_options">
-                                <button onclick="add_to_list('q-code')" id="AddToList_IdNumber"
-                                        class="action_buttons">Add to my
-                                    practice list</button>
-                            </div>
+                    {% for result in search_results %}
+                    <div class="result_question_container">
+                        <div class="code_difficulty">
+                            <div class="result_titles q-code">Question Code:  {{result.id}}</div>
+                            <div class="result_titles difficulty_level hidden_content">Difficulty Level</div>
                         </div>
-                    </template>
+                        <div class="result_titles categories" id="categories_IdNumber">Tags: {{result.tags}} </div>
+                        <div id="text_content_IdNumber" class="text_content">
+                            <p>
+                                <span>{{result.testlet}}</span>
+                                <span class="hidden_content">...</span>
+                                <span class="hidden_content"></span>
+                            </p>
+                            <button onclick="Collapse('IdNumber')" class="collapse_buttons hidden_content">Read more</button>
+                        </div>
+                        <div class="action_options">
+                            <button onclick="add_to_list('q-code')" class="action_buttons">Add to my list</button>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>

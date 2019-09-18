@@ -330,10 +330,14 @@ button:hover{
 }
 /*question search*/
 #search_bar{
-    width: 100%;
+    width: 90%;
+    height: 30pt;
     font-size: 16pt;
-    background-color: transparent;
+    /*background-color: transparent;*/
     border: none;
+    border-radius: 17pt;
+    background-color: #dbdbdb;
+    padding: 2pt 5% 2pt 5%;
 }
 #search_bar::placeholder{
     color: #bfbfbf;
@@ -345,9 +349,9 @@ button:hover{
 #search_bar_container{
     margin: 10% auto 0 auto;
     padding: 10px 20px 10px 20px;
-    border-radius: 11px;
+
     width: 80%;
-    background-color: #dbdbdb;
+
 }
 #search_results_container{
     margin: 10% auto 0 auto;

@@ -134,7 +134,19 @@ def bulkapi():
 
 @app.route('/search', methods=['POST', 'GET'])
 def query_page():
-    pass
+    if 'session' not in request.cookies.keys():
+        return redirect('/')
+    else:
+        token = request.cookies['session']
+        result, new_token = server.login_token(token)
+        if result:
+            response = make_response(render_template('search_questions.html'))
+            response.set_cookie('session', new_token)
+            response.set_cookie('account_type',
+                                server.get_permission(new_token))
+            return response
+        else:
+            return render_template('login.html')
 
 
 @app.route('/query', methods=['POST', 'GET'])

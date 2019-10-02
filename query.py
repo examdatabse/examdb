@@ -1,4 +1,4 @@
-from examdb.databse import Problems
+from databse import Problems
 
 
 class Query(object):

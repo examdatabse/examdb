@@ -1,10 +1,8 @@
 from flask import *
-import examdb.app
-import traceback
-import examdb.docs
-import examdb.server
+import server
+
 app = Flask(__name__)
-server = None
+Server = None
 
 
 @app.route('/', methods=['POST', 'GET'])
@@ -13,11 +11,11 @@ def login():
         return render_template('login.html')
     else:
         token = request.cookies['session']
-        result, new_token = server.login_token(token)
+        result, new_token = Server.login_token(token)
         if result:
             response = make_response(redirect('/dashboard'))
             response.set_cookie('session', new_token)
-            response.set_cookie('account_type', server.get_permission(new_token))
+            response.set_cookie('account_type', Server.get_permission(new_token))
             return response
         else:
             return render_template('login.html')
@@ -28,11 +26,11 @@ def authenticate():
     form = request.form
     username = form.get('uname')
     password = form.get('psw')
-    result, token = server.login_password(username, password)
+    result, token = Server.login_password(username, password)
     if result == 0:
         response = make_response(redirect('/dashboard'))
         response.set_cookie('session', token)
-        response.set_cookie('account_type', server.get_permission(token))
+        response.set_cookie('account_type', Server.get_permission(token))
         return response
     else:
         return redirect('/')
@@ -53,12 +51,12 @@ def add():
         return redirect('/')
     else:
         token = request.cookies['session']
-        result, new_token = server.login_token(token)
+        result, new_token = Server.login_token(token)
         if result:
-            server.add_question(form, files)
+            Server.add_question(form, files)
             response = make_response('success')
             response.set_cookie('session', new_token)
-            response.set_cookie('account_type', server.get_permission(new_token))
+            response.set_cookie('account_type', Server.get_permission(new_token))
             return response
         else:
             return redirect('/')
@@ -70,11 +68,11 @@ def dashboard():
         return redirect('/')
     else:
         token = request.cookies['session']
-        result, new_token = server.login_token(token)
+        result, new_token = Server.login_token(token)
         if result:
             response = make_response(render_template('dashboard.html', search_results={}))
             response.set_cookie('session', new_token)
-            response.set_cookie('account_type', server.get_permission(new_token))
+            response.set_cookie('account_type', Server.get_permission(new_token))
             return response
         else:
             return redirect('/')
@@ -86,11 +84,11 @@ def account_settings():
         return redirect('/')
     else:
         token = request.cookies['session']
-        result, new_token = server.login_token(token)
+        result, new_token = Server.login_token(token)
         if result:
             response = make_response(render_template('account_setting.html'))
             response.set_cookie('session', new_token)
-            response.set_cookie('account_type', server.get_permission(new_token))
+            response.set_cookie('account_type', Server.get_permission(new_token))
             return response
         else:
             return render_template('login.html')
@@ -102,11 +100,11 @@ def bulk_page():
         return redirect('/')
     else:
         token = request.cookies['session']
-        result, new_token = server.login_token(token)
+        result, new_token = Server.login_token(token)
         if result:
             response = make_response(render_template('bulk_upload.html'))
             response.set_cookie('session', new_token)
-            response.set_cookie('account_type', server.get_permission(new_token))
+            response.set_cookie('account_type', Server.get_permission(new_token))
             return response
         else:
             return render_template('login.html')
@@ -119,13 +117,13 @@ def bulkapi():
         return redirect('/')
     else:
         token = request.cookies['session']
-        result, new_token = server.login_token(token)
+        result, new_token = Server.login_token(token)
         if result:
             file = files.get('buck_questions')
-            server.bulk_upload(file)
+            Server.bulk_upload(file)
             response = make_response('success')
             response.set_cookie('session', new_token)
-            response.set_cookie('account_type', server.get_permission(new_token))
+            response.set_cookie('account_type', Server.get_permission(new_token))
             return response
         else:
             return redirect('/')
@@ -137,12 +135,12 @@ def query_page():
         return redirect('/')
     else:
         token = request.cookies['session']
-        result, new_token = server.login_token(token)
+        result, new_token = Server.login_token(token)
         if result:
             response = make_response(render_template('search_questions.html'))
             response.set_cookie('session', new_token)
             response.set_cookie('account_type',
-                                server.get_permission(new_token))
+                                Server.get_permission(new_token))
             return response
         else:
             return redirect('/')
@@ -154,14 +152,14 @@ def query():
         return redirect('/')
     else:
         token = request.cookies['session']
-        result, new_token = server.login_token(token)
+        result, new_token = Server.login_token(token)
         if result:
             key_word = request.form['key_word']
-            question = server.search_by_serial_number(key_word)
+            question = Server.search_by_serial_number(key_word)
             response = make_response(render_template('search_questions.html', search_results=question))
             response.set_cookie('session', new_token)
             response.set_cookie('account_type',
-                                server.get_permission(new_token))
+                                Server.get_permission(new_token))
             return response
             pass
         else:
@@ -174,10 +172,10 @@ def logout():
         return redirect('/')
     else:
         token = request.cookies['session']
-        server.logout(token)
+        Server.logout(token)
         return redirect('/')
 
 
 if __name__ == '__main__':
-    server = examdb.server.Server()
+    Server = server.Server()
     app.run(host='localhost', port=5000)

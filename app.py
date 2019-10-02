@@ -1,12 +1,12 @@
 import time
 
-from examdb.databse import Users
+from databse import Users
 
 
 import time
 import pickle
-from examdb.databse import Problems
-from examdb.cache import Cache
+from databse import Problems
+from cache import Cache
 
 
 class DatabaseManager:

@@ -1,10 +1,10 @@
-import examdb.lfu
+import lfu
 
 MAX_CAPACITY = 10000
 
 
 class Cache:
-    _cache = examdb.lfu.LFUCache(MAX_CAPACITY)
+    _cache = lfu.LFUCache(MAX_CAPACITY)
 
     def __init__(self):
         pass

@@ -1,8 +1,8 @@
-import examdb.app
-import examdb.docs
-import examdb.cache
-import examdb.token_manager
-import examdb.query
+import app
+import docs
+import cache
+import token_manager
+import query
 import time
 
 
@@ -10,7 +10,7 @@ TOKEN_LIFESPAN = 432000
 
 
 class Server:
-    __search_cache = examdb.cache.Cache()
+    __search_cache = cache.Cache()
     __login_info = dict()
     __token_pool = dict()
     __file_offset = 0
@@ -20,7 +20,7 @@ class Server:
         pass
 
     def __initialize(self):
-        self.__login_info = examdb.app.DatabaseManager.load_info()
+        self.__login_info = app.DatabaseManager.load_info()
 
     # authenticate a login request with provided password and username
     # returns a unique token for the user
@@ -29,7 +29,7 @@ class Server:
             return 1, ''
         else:
             if self.__login_info[username]['password'] == password:
-                seed, token = examdb.token_manager.TokenManager.generate_token()
+                seed, token = token_manager.TokenManager.generate_token()
                 self.__token_pool[token] = {'username': username, 'password': password, 'start_time': seed}
                 return 0, token
             else:
@@ -51,7 +51,7 @@ class Server:
         return self.__login_info[self.__token_pool[token]['username']]['permission']
 
     def __update_token(self, old_token):
-        seed, token = examdb.token_manager.TokenManager.generate_token()
+        seed, token = token_manager.TokenManager.generate_token()
         username = self.__token_pool[old_token]['username']
         password = self.__token_pool[old_token]['password']
         self.__token_pool[token] = {'username': username, 'password': password, 'start_time': seed}
@@ -69,14 +69,14 @@ class Server:
         pass
 
     def add_question(self, form, files):
-        examdb.app.DatabaseManager.add_questions(form, files)
+        app.DatabaseManager.add_questions(form, files)
         pass
 
     def bulk_upload(self, files):
         file_name = 'uploads/upload_{}.docx'.format(self.__file_offset)
         files.save(file_name)
-        questions = examdb.docs.parse_doc(file_name, self.__file_offset)[0]
-        examdb.app.DatabaseManager.bulk_add(questions)
+        questions = docs.parse_doc(file_name, self.__file_offset)[0]
+        app.DatabaseManager.bulk_add(questions)
         self.__file_offset += 1
 
     def search_by_keyword(self, key_word):
@@ -86,6 +86,6 @@ class Server:
         pass
 
     def search_by_serial_number(self, serial_number):
-        result, question = examdb.query.Query.query_by_id(serial_number)
+        result, question = query.Query.query_by_id(serial_number)
         return [question]
         pass

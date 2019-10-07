@@ -1,5 +1,6 @@
 import pypandoc
 from bs4 import BeautifulSoup
+import re
 
 
 def parse_doc(docname, offset):
@@ -98,8 +99,7 @@ def parse_doc(docname, offset):
 
 if __name__ == '__main__':
     print(parse_doc("test.docx", 3))
-
-    # with open("test1.html", 'r') as f:
+    # with open("test1.html", 'r') s f:
     #     for i in f:
     #         print(i)
 

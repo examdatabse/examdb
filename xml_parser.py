@@ -2,7 +2,7 @@ import xmltodict
 
 
 def parse_correct_answer(docname):
-    f = open("document.xml", encoding='utf-8')
+    f = open(docname, encoding='utf-8')
     xmlstr = ''
     for i in f:
         xmlstr += i

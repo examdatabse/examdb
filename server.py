@@ -75,9 +75,19 @@ class Server:
     def bulk_upload(self, files):
         file_name = 'uploads/upload_{}.docx'.format(self.__file_offset)
         files.save(file_name)
-        questions = docs.parse_doc(file_name, self.__file_offset)[0]
+        questions = docs.parse_doc(file_name, self.__file_offset)
         app.DatabaseManager.bulk_add(questions)
         self.__file_offset += 1
+
+    def bulk_upload_unformatted(self, doc, attr_xml, attr_csv):
+        doc_name = 'uploads/upload_{}.docx'.format(self.__file_offset)
+        xml_name = 'uploads/upload_{}.xml'.format(self.__file_offset)
+        csv_name = 'uploads/upload_{}.csv'.format(self.__file_offset)
+        doc.save(doc_name)
+        attr_xml.save(attr_xml)
+        attr_csv.save(attr_csv)
+        questions = docs.parse_doc_unformatted(doc_name, self.__file_offset, xml_name, csv_name)
+        app.DatabaseManager.bulk_add(questions)
 
     def search_by_keyword(self, key_word):
         pass

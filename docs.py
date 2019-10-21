@@ -1,100 +1,83 @@
 import pypandoc
-from bs4 import BeautifulSoup
 import re
+import csv
+import xml_parser
 
 
 def parse_doc(docname, offset):
     output = pypandoc.convert_file(docname, 'html', extra_args=['--extract-media=static/exam_imgs/{}'.format(offset)])
-    soup = BeautifulSoup(output, "html.parser")
-    all_questions = soup.find_all(["p", "table"])
-    all_questions = list(all_questions)
-    i = 0
-    question_info = dict()
-    curr_code = ""
-    while i < len(all_questions):
-        j = all_questions[i]
-        portion = j.text[1:len(j.text)].split(":")
-        if portion[0] == "QCode":
-            portion[1] = portion[1].replace("{", "")
-            portion[1] = portion[1].replace("}", "")
-            curr_code = portion[1]
-            question_info[curr_code] = dict()
-            # print("Question Number:", portion[1])
+    result = re.findall("@Begin.*?@QCode:{(.*?)}.*?@Serial:{(.*?)}.*?@Permission:{(.*?)}.*?@Ans:{(.*?)}.*?"
+                        "@Question:{(.*?)}.*?@Choice1:{(.*?)}.*?@Choice2:{(.*?)}.*?@Choice3:{(.*?)}.*?@Choice4:{(.*?)}."
+                        "*?@Choice5:{(.*?)}.*?@End", output, re.S)
+    questions = dict()
+    for i, j in enumerate(result):
+        # print(i + 1)
+        # print()
+        questions[j[0]] = dict()
+        questions[j[0]]['serial'] = j[1]
+        questions[j[0]]['permission'] = j[2]
+        questions[j[0]]['ans'] = j[3]
+        questions[j[0]]['qbody'] = j[4]
+        questions[j[0]]['c1'] = j[5]
+        questions[j[0]]['c2'] = j[6]
+        questions[j[0]]['c3'] = j[7]
+        questions[j[0]]['c4'] = j[8]
+        questions[j[0]]['c5'] = j[9]
+        # for k in j:
+        #     k = k.strip()
+        #     print(k, end=" ")
+        # print()
+    # print(questions)
+    # file = open('t2.html', 'w', encoding='utf-8')
+    # soup = BeautifulSoup(output, "html.parser")
+    # file.write(soup.prettify())
+    return questions
 
-        if portion[0] == "Serial":
-            portion[1] = portion[1].replace("{", "")
-            portion[1] = portion[1].replace("}", "")
-            question_info[curr_code]["serial"] = portion[1]
-            # print("Serial Number:", portion[1])
 
-        if portion[0] == "Permission":
-            portion[1] = portion[1].replace("{", "")
-            portion[1] = portion[1].replace("}", "")
-            question_info[curr_code]["permission"] = portion[1]
-            # print("Permission:", portion[1])
-
-        if portion[0] == "Ans":
-            portion[1] = portion[1].replace("{", "")
-            portion[1] = portion[1].replace("}", "")
-            question_info[curr_code]["ans"] = portion[1]
-            # print("Answer:", portion[1])
-
-        if portion[0] == "Question":
-            question_body = str(j).replace("@Question:", "")
-            if question_body.find("{") != -1 and question_body.find("}") == -1:
-                long_question = ""
-                while True:
-                    content = str(all_questions[i])
-                    long_question += content + "\n"
-                    if content.find("}") != -1:
-                        break
-                    i += 1
-                question_body = long_question
-            question_body = question_body.replace("@Question:", "")
-            question_body = question_body.replace("{", "")
-            question_body = question_body.replace("}", "")
-            question_info[curr_code]["qbody"] = question_body
-            # print("Question Body:\n", question_body)
-
-        if portion[0] == "Choice1":
-            choice = str(j).replace("@Choice1:", "")
-            choice = choice.replace("{", "")
-            choice = choice.replace("}", "")
-            question_info[curr_code]["c1"] = choice
-            # print("Choice1", choice)
-
-        if portion[0] == "Choice2":
-            choice = str(j).replace("@Choice2:", "")
-            choice = choice.replace("{", "")
-            choice = choice.replace("}", "")
-            question_info[curr_code]["c2"] = choice
-            # print("Choice2", choice)
-
-        if portion[0] == "Choice3":
-            choice = str(j).replace("@Choice3:", "")
-            choice = choice.replace("{", "")
-            choice = choice.replace("}", "")
-            question_info[curr_code]["c3"] = choice
-            # print("Choice3", choice)
-
-        if portion[0] == "Choice4":
-            choice = str(j).replace("@Choice4:", "")
-            choice = choice.replace("{", "")
-            choice = choice.replace("}", "")
-            question_info[curr_code]["c4"] = choice
-            # print("Choice4", choice)
-
-        if portion[0] == "Choice5":
-            choice = str(j).replace("@Choice5:", "")
-            choice = choice.replace("{", "")
-            choice = choice.replace("}", "")
-            question_info[curr_code]["c5"] = choice
-            # print("Choice5", choice)
-
+def parse_doc_unformatted(docname, offset, attr_data, answer_file):
+    output = pypandoc.convert_file(docname, 'html', extra_args=['--extract-media=static/exam_imgs/{}'.format(offset)])
+    # file = open('t2.html', 'w', encoding='utf-8')
+    # soup = BeautifulSoup(output, "html.parser")
+    # file.write(soup.prettify())
+    result = re.findall("<li>.*?<p>(.*?)</p>.*?<p>(.*?)</p>.*?<p>(.*?)</p>.*?<p>(.*?)</p>.*?<p>(.*?)</p>"
+                        ".*?<p>(.*?)</p>.*?</li>", output, re.S)
+    questions = dict()
+    answers = xml_parser.assign_answer(xml_parser.parse_correct_answer(answer_file))
+    choice_map = {
+        1: 'A',
+        2: 'B',
+        3: 'C',
+        4: 'D',
+        5: 'E'
+    }
+    for i, j in enumerate(result):
+        questions[attr_data[i]['qcode']] = dict()
+        questions[attr_data[i]['qcode']]['serial'] = attr_data[i]['serial'].strip()
+        questions[attr_data[i]['qcode']]['permission'] = attr_data[i]['permission'].strip()
+        questions[attr_data[i]['qcode']]['ans'] = choice_map[answers[i]].strip()
+        questions[attr_data[i]['qcode']]['qbody'] = j[0].strip()
+        questions[attr_data[i]['qcode']]['c1'] = j[1].strip()
+        questions[attr_data[i]['qcode']]['c2'] = j[2].strip()
+        questions[attr_data[i]['qcode']]['c3'] = j[3].strip()
+        questions[attr_data[i]['qcode']]['c4'] = j[4].strip()
+        questions[attr_data[i]['qcode']]['c5'] = j[5].strip()
+        # print(i + 1)
         # print(j)
-        i += 1
+    return questions
 
-    return question_info, output
+
+def parse_csv(attr_file):
+    file = open(attr_file, encoding='utf-8')
+    readcsv = csv.reader(file, delimiter=',')
+    data = dict()
+    for j, i in enumerate(readcsv):
+        if j != 0:
+            data[j - 1] = dict()
+            data[j - 1]['qcode'] = i[0]
+            data[j - 1]['serial'] = i[1]
+            data[j - 1]['permission'] = i[2]
+    # print(data)
+    return data
 
 
 if __name__ == '__main__':
